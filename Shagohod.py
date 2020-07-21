@@ -2,6 +2,7 @@
 import requests
 import time
 import pyfiglet
+import argparse
 from fake_useragent import UserAgent
 from pprint import pprint
 from bs4 import BeautifulSoup
@@ -10,7 +11,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
 
 #Fake User Agent
 ua  = UserAgent()
@@ -36,15 +36,28 @@ options.binary_location = '/usr/bin/google-chrome-stable'
 
 #Banner
 custom_fig = Figlet(font='cybermedium')
+name = 'Created by: Muteme@github.com'
 print(custom_fig.renderText('Shagohod'))
+print(name)
 message = 'Your random header'
 #print(message + ua.random)
 
+#Arugments
+ap = argparse.ArgumentParser()
+ap.add_argument("-U","--URL",required=False,help="Site to scan")
+ap.add_argument("-F","--File",required=False,help="List of URLS")
+args = ap.parse_args()
+URL = args.URL
+#Files = args.File
+
+#Read File
+file1 = open('urls', 'r')
+Lines = file1.readlines()
+
+
 #Site Input
-URL = input("What site would you like to scrape?[http://www.example.com]")
-html_text = requests.get(URL, headers=headers)
+#site = args.File
+site = args.URL 
+html_text = requests.get(site, headers=headers)
 soup = BeautifulSoup(html_text.content, 'html.parser')
-
-#Print
 print (vars(soup))
-
